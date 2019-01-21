@@ -19,7 +19,11 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
-
+    <dependency>
+      <groupId>org.activiti</groupId>
+      <artifactId>activiti-engine</artifactId>
+      <version>5.22.0</version>
+    </dependency>
   </dependencies>
   <!-- ajouté pour la question de l'exo 2 -->
   <build>
