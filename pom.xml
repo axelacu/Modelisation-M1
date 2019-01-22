@@ -34,7 +34,7 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>org.activiti.App</mainClass>
+              <!--<mainClass>org.activiti.App</mainClass>-->
               <addClasspath>true</addClasspath>
               <classpathPrefix>lib</classpathPrefix>
             </manifest>
