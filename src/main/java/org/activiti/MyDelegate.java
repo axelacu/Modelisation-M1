@@ -12,16 +12,18 @@ public class MyDelegate implements JavaDelegate {
         var = var.toUpperCase();
         execution.setVariable("input", var);
         System.out.println("");*/
-        int id = Integer.parseInt(execution.getId());
+        String id = execution.getId();
         switch (id){
-            case 3:
+            case "approbation":
                 execution.setVariable("approbation",verificationPedagogique(execution));
                 break;
+            case "verif":
+                execution.setVariable("verif",verificationAdministratif(execution));
         }
 
     }
 
-    public boolean verificationPedagogique(DelegateExecution execution){
+    private boolean verificationPedagogique(DelegateExecution execution){
         Map<String,Object> mapVar = execution.getVariables();
         for(String key : mapVar.keySet()){
             Object val = mapVar.get(key);
@@ -31,8 +33,10 @@ public class MyDelegate implements JavaDelegate {
                     return false;                }
             }
         }
-        return true;
+        String post = (String) execution.getVariable("poste");
+        return post.length() >= 5;
     }
+
     public boolean verificationAdministratif(DelegateExecution execution ){
 
         String email  =(String)execution.getVariable("mailTutor");
