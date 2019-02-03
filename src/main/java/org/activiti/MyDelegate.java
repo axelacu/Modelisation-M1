@@ -33,7 +33,13 @@ public class MyDelegate implements JavaDelegate {
         }
         return true;
     }
-    public boolean verificationAdministratif(DelegateExecution execution){
-        return false;
+    public boolean verificationAdministratif(DelegateExecution execution ){
+
+        String email  =(String)execution.getVariable("mailTutor");
+
+       if(email.contains("@")) {
+           return true;
+       }
+       return  false;
     }
 }
