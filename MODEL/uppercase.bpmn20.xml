@@ -15,7 +15,7 @@
     </userTask>
     <sequenceFlow id="sid-EBA68D3C-9260-4ECD-92B7-015D8B995E4D" sourceRef="sid-E89C0243-F21F-417C-8539-E1FD5B0B3F5F" targetRef="sid-6814FED1-1484-404B-8C82-22FF9F66B4F6"></sequenceFlow>
     <serviceTask id="sid-E89C0243-F21F-417C-8539-E1FD5B0B3F5F" name="Get upperCase
-" activiti:class="org.activiti.Mydelegate"></serviceTask>
+" activiti:class="org.activiti.MyDelegate"></serviceTask>
     <endEvent id="sid-12E3F790-1FCD-4692-B056-E5F3C1AE53FC"></endEvent>
     <sequenceFlow id="sid-968B6DB6-7494-413F-96A4-0F9727008B99" sourceRef="sid-6814FED1-1484-404B-8C82-22FF9F66B4F6" targetRef="sid-12E3F790-1FCD-4692-B056-E5F3C1AE53FC"></sequenceFlow>
   </process>
