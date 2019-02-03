@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/processdef">
+  <process id="process" isExecutable="true">
+    <startEvent id="sid-B90DFB54-AA5E-478F-96D4-72E99F2F0F1A"></startEvent>
+    <userTask id="sid-D331EB62-F605-4814-B0DF-A2AE6C5BB097" name="impression de la convention de stage par l etudiant"></userTask>
+    <sequenceFlow id="sid-06FC92A0-25DD-4DF3-A54D-65044F533490" sourceRef="sid-B90DFB54-AA5E-478F-96D4-72E99F2F0F1A" targetRef="sid-D331EB62-F605-4814-B0DF-A2AE6C5BB097"></sequenceFlow>
+    <userTask id="sid-DCCAA4A4-BF60-4D10-B933-DB2EEE824DA9" name="signature de la convention et depot  au service de stage"></userTask>
+    <sequenceFlow id="sid-10A42668-3BAA-45B5-89B4-56DE4AA54102" sourceRef="sid-D331EB62-F605-4814-B0DF-A2AE6C5BB097" targetRef="sid-DCCAA4A4-BF60-4D10-B933-DB2EEE824DA9"></sequenceFlow>
+    <serviceTask id="sid-05168ED1-6F9F-46E3-8149-4EDF611E18F3" name="enregistrement de la convention
+de stage"></serviceTask>
+    <sequenceFlow id="sid-D139DDC2-6C5D-41F7-91E5-FE4C017BCE21" sourceRef="sid-DCCAA4A4-BF60-4D10-B933-DB2EEE824DA9" targetRef="sid-05168ED1-6F9F-46E3-8149-4EDF611E18F3"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_process">
+    <bpmndi:BPMNPlane bpmnElement="process" id="BPMNPlane_process">
+      <bpmndi:BPMNShape bpmnElement="sid-B90DFB54-AA5E-478F-96D4-72E99F2F0F1A" id="BPMNShape_sid-B90DFB54-AA5E-478F-96D4-72E99F2F0F1A">
+        <omgdc:Bounds height="30.0" width="30.0" x="45.0" y="53.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sid-D331EB62-F605-4814-B0DF-A2AE6C5BB097" id="BPMNShape_sid-D331EB62-F605-4814-B0DF-A2AE6C5BB097">
+        <omgdc:Bounds height="80.0" width="100.0" x="139.0" y="28.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sid-DCCAA4A4-BF60-4D10-B933-DB2EEE824DA9" id="BPMNShape_sid-DCCAA4A4-BF60-4D10-B933-DB2EEE824DA9">
+        <omgdc:Bounds height="80.0" width="100.0" x="349.0" y="28.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sid-05168ED1-6F9F-46E3-8149-4EDF611E18F3" id="BPMNShape_sid-05168ED1-6F9F-46E3-8149-4EDF611E18F3">
+        <omgdc:Bounds height="80.0" width="100.0" x="554.0" y="28.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="sid-D139DDC2-6C5D-41F7-91E5-FE4C017BCE21" id="BPMNEdge_sid-D139DDC2-6C5D-41F7-91E5-FE4C017BCE21">
+        <omgdi:waypoint x="449.0" y="68.0"></omgdi:waypoint>
+        <omgdi:waypoint x="554.0" y="68.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-06FC92A0-25DD-4DF3-A54D-65044F533490" id="BPMNEdge_sid-06FC92A0-25DD-4DF3-A54D-65044F533490">
+        <omgdi:waypoint x="75.0" y="68.0"></omgdi:waypoint>
+        <omgdi:waypoint x="139.0" y="68.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-10A42668-3BAA-45B5-89B4-56DE4AA54102" id="BPMNEdge_sid-10A42668-3BAA-45B5-89B4-56DE4AA54102">
+        <omgdi:waypoint x="239.0" y="68.0"></omgdi:waypoint>
+        <omgdi:waypoint x="349.0" y="68.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
