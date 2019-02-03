@@ -8,5 +8,6 @@ public class Mydelegate implements JavaDelegate {
         String var = (String) execution.getVariable("input");
         var = var.toUpperCase();
         execution.setVariable("input", var);
+        System.out.println("");
     }
 }
