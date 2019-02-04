@@ -41,7 +41,8 @@ public class MyDelegate3 implements JavaDelegate {
         pst.setDate(6, (Date) delegateExecution.getVariable("dateFin"));
         pst.setString(7, (String) delegateExecution.getVariable("poste"));
         pst.setString(8, (String) delegateExecution.getVariable("mailTutor"));
-
+        //UPDATE TABLE
+        pst.executeUpdate();
         System.out.println("** Row inserted **");
         conn.close();
     }
