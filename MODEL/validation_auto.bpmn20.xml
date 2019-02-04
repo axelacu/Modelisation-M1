@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/processdef">
+  <process id="validation_auto" name="Validations Auto" isExecutable="true">
+    <exclusiveGateway id="sid-7D1E5359-7B85-4909-8F66-77CC74F87F3C"></exclusiveGateway>
+    <userTask id="modif" name="Modification de convention." activiti:assignee="${etu}">
+      <documentation>Modification de la convention par l'étudiant.</documentation>
+      <extensionElements>
+        <activiti:formProperty id="mailTutor" name="Mail du tuteur" type="string"></activiti:formProperty>
+        <activiti:formProperty id="dateDebut" name="Date debut" type="date" datePattern="MM-dd-yyyy hh:mm"></activiti:formProperty>
+        <activiti:formProperty id="dateFin" name="Date de fin." type="date" datePattern="MM-dd-yyyy hh:mm"></activiti:formProperty>
+      </extensionElements>
+    </userTask>
+    <startEvent id="init" name="Soumission" activiti:initiator="etu">
+      <documentation>Debut de la soumission de stage.</documentation>
+      <extensionElements>
+        <activiti:formProperty id="nomEtu" name="Nom" type="string"></activiti:formProperty>
+        <activiti:formProperty id="approbation" name="Etudiant ?" type="boolean"></activiti:formProperty>
+      </extensionElements>
+    </startEvent>
+    <userTask id="soumis" name="Soumission de l'offre de stage." activiti:assignee="${etu}">
+      <documentation>Tache de soumission de la convocation par l'étudiant.</documentation>
+      <extensionElements>
+        <activiti:formProperty id="numIdEtu" name="Numéro etudiant." type="string"></activiti:formProperty>
+        <activiti:formProperty id="nomEtu" name="Nom" type="string"></activiti:formProperty>
+        <activiti:formProperty id="prenom" name="Prenom" type="string"></activiti:formProperty>
+        <activiti:formProperty id="filaire" name="Filaire" type="string"></activiti:formProperty>
+        <activiti:formProperty id="dateDebut" name="Date debut stage" type="date" datePattern="MM-dd-yyyy hh:mm"></activiti:formProperty>
+        <activiti:formProperty id="dateFin" name="Date fin de Stage" type="date" datePattern="MM-dd-yyyy hh:mm"></activiti:formProperty>
+        <activiti:formProperty id="poste" name="Poste" type="string"></activiti:formProperty>
+        <activiti:formProperty id="mailTutor" name="Email du tuteur." type="string"></activiti:formProperty>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="sid-322265D7-F331-4CE9-B291-5B515822B4B7" sourceRef="init" targetRef="soumis"></sequenceFlow>
+    <sequenceFlow id="sid-094BBE0A-C048-4D1F-B230-23DE80BD6F09" sourceRef="soumis" targetRef="approba"></sequenceFlow>
+    <exclusiveGateway id="sid-025C8D48-550C-44E0-B9EB-3D0F2B1741DB"></exclusiveGateway>
+    <sequenceFlow id="sid-4505A4EB-435B-4C6C-9CD0-BB6EE8C51C86" sourceRef="verif" targetRef="sid-7D1E5359-7B85-4909-8F66-77CC74F87F3C"></sequenceFlow>
+    <serviceTask id="approba" name="Approbation du stage" activiti:class="org.activiti.MyDelegate">
+      <documentation>Approbation de la convention par le responsable pédagogique.</documentation>
+    </serviceTask>
+    <serviceTask id="verif" name="Vérification Administrative." activiti:class="org.activiti.MyDelegate2"></serviceTask>
+    <sequenceFlow id="sid-29EA64D8-F58B-49CA-9064-86189F91E5B0" sourceRef="approba" targetRef="sid-025C8D48-550C-44E0-B9EB-3D0F2B1741DB"></sequenceFlow>
+    <sequenceFlow id="sid-1002CDC8-E1E7-43C2-98EF-70E36270BC0F" name="Non appouvée" sourceRef="sid-025C8D48-550C-44E0-B9EB-3D0F2B1741DB" targetRef="soumis">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approbation=="false"}]]></conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="enreg" name="Enregistrer la convocation" activiti:class="org.activiti.MyDelegate3">
+      <documentation>Enregistre dans la base de donnée la convocation avec les donnée de l’étudiant.</documentation>
+    </serviceTask>
+    <sequenceFlow id="sid-21C4A8A1-BE72-49E6-93BA-3916A8F3CA89" name="Approuvée" sourceRef="sid-025C8D48-550C-44E0-B9EB-3D0F2B1741DB" targetRef="verif">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approbation=="true"}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="sid-90807835-4072-40F2-9030-F4E0F01E2419" sourceRef="modif" targetRef="verif"></sequenceFlow>
+    <sequenceFlow id="sid-093A1DF6-EC9F-4A0A-850B-57D936C864CC" name="Non approuvée" sourceRef="sid-7D1E5359-7B85-4909-8F66-77CC74F87F3C" targetRef="modif">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approbation=="false"}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="sid-79018B6A-3068-4AB0-82A0-859FAF33D41F" name="Approuvée" sourceRef="sid-7D1E5359-7B85-4909-8F66-77CC74F87F3C" targetRef="enreg">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approbation=="true"}]]></conditionExpression>
+    </sequenceFlow>
+    <intermediateThrowEvent id="fin" name="Fin enregistrement."></intermediateThrowEvent>
+    <sequenceFlow id="sid-8C4C45B5-1BCC-4F82-BEC8-9B20E878EA85" sourceRef="enreg" targetRef="fin"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_validation_auto">
+    <bpmndi:BPMNPlane bpmnElement="validation_auto" id="BPMNPlane_validation_auto">
+      <bpmndi:BPMNShape bpmnElement="sid-7D1E5359-7B85-4909-8F66-77CC74F87F3C" id="BPMNShape_sid-7D1E5359-7B85-4909-8F66-77CC74F87F3C">
+        <omgdc:Bounds height="40.0" width="40.0" x="685.0" y="210.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="modif" id="BPMNShape_modif">
+        <omgdc:Bounds height="80.0" width="100.0" x="655.0" y="370.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="init" id="BPMNShape_init">
+        <omgdc:Bounds height="30.0" width="30.0" x="45.3499755859375" y="214.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="soumis" id="BPMNShape_soumis">
+        <omgdc:Bounds height="80.0" width="100.0" x="120.3499755859375" y="189.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sid-025C8D48-550C-44E0-B9EB-3D0F2B1741DB" id="BPMNShape_sid-025C8D48-550C-44E0-B9EB-3D0F2B1741DB">
+        <omgdc:Bounds height="40.0" width="40.0" x="435.0" y="209.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="approba" id="BPMNShape_approba">
+        <omgdc:Bounds height="80.0" width="100.0" x="265.3499755859375" y="189.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="verif" id="BPMNShape_verif">
+        <omgdc:Bounds height="80.0" width="100.0" x="555.0" y="189.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="enreg" id="BPMNShape_enreg">
+        <omgdc:Bounds height="80.0" width="100.0" x="810.0" y="190.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="fin" id="BPMNShape_fin">
+        <omgdc:Bounds height="30.0" width="30.0" x="1019.6666641235352" y="215.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="sid-21C4A8A1-BE72-49E6-93BA-3916A8F3CA89" id="BPMNEdge_sid-21C4A8A1-BE72-49E6-93BA-3916A8F3CA89">
+        <omgdi:waypoint x="475.0" y="229.0"></omgdi:waypoint>
+        <omgdi:waypoint x="555.0" y="229.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-8C4C45B5-1BCC-4F82-BEC8-9B20E878EA85" id="BPMNEdge_sid-8C4C45B5-1BCC-4F82-BEC8-9B20E878EA85">
+        <omgdi:waypoint x="910.0" y="230.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1019.6666641235352" y="230.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-1002CDC8-E1E7-43C2-98EF-70E36270BC0F" id="BPMNEdge_sid-1002CDC8-E1E7-43C2-98EF-70E36270BC0F">
+        <omgdi:waypoint x="455.0" y="209.0"></omgdi:waypoint>
+        <omgdi:waypoint x="455.0" y="102.0"></omgdi:waypoint>
+        <omgdi:waypoint x="170.0" y="102.0"></omgdi:waypoint>
+        <omgdi:waypoint x="170.23974705493356" y="189.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-90807835-4072-40F2-9030-F4E0F01E2419" id="BPMNEdge_sid-90807835-4072-40F2-9030-F4E0F01E2419">
+        <omgdi:waypoint x="655.0" y="410.0"></omgdi:waypoint>
+        <omgdi:waypoint x="605.0" y="410.0"></omgdi:waypoint>
+        <omgdi:waypoint x="605.0" y="269.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-094BBE0A-C048-4D1F-B230-23DE80BD6F09" id="BPMNEdge_sid-094BBE0A-C048-4D1F-B230-23DE80BD6F09">
+        <omgdi:waypoint x="220.3499755859375" y="229.0"></omgdi:waypoint>
+        <omgdi:waypoint x="265.3499755859375" y="229.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-79018B6A-3068-4AB0-82A0-859FAF33D41F" id="BPMNEdge_sid-79018B6A-3068-4AB0-82A0-859FAF33D41F">
+        <omgdi:waypoint x="725.0" y="230.0"></omgdi:waypoint>
+        <omgdi:waypoint x="810.0" y="230.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-29EA64D8-F58B-49CA-9064-86189F91E5B0" id="BPMNEdge_sid-29EA64D8-F58B-49CA-9064-86189F91E5B0">
+        <omgdi:waypoint x="365.3499755859375" y="229.0"></omgdi:waypoint>
+        <omgdi:waypoint x="435.0" y="229.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-4505A4EB-435B-4C6C-9CD0-BB6EE8C51C86" id="BPMNEdge_sid-4505A4EB-435B-4C6C-9CD0-BB6EE8C51C86">
+        <omgdi:waypoint x="655.0" y="229.5"></omgdi:waypoint>
+        <omgdi:waypoint x="685.1980198019802" y="229.8019801980198"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-322265D7-F331-4CE9-B291-5B515822B4B7" id="BPMNEdge_sid-322265D7-F331-4CE9-B291-5B515822B4B7">
+        <omgdi:waypoint x="75.3499755859375" y="229.0"></omgdi:waypoint>
+        <omgdi:waypoint x="120.3499755859375" y="229.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-093A1DF6-EC9F-4A0A-850B-57D936C864CC" id="BPMNEdge_sid-093A1DF6-EC9F-4A0A-850B-57D936C864CC">
+        <omgdi:waypoint x="705.0" y="250.0"></omgdi:waypoint>
+        <omgdi:waypoint x="705.0" y="370.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
