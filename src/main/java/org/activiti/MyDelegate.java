@@ -7,12 +7,6 @@ import java.util.Map;
 public class MyDelegate implements JavaDelegate {
     @Override
     public void execute(DelegateExecution execution) throws Exception {
-        /*
-        String var = (String) execution.getVariable("input");
-        var = var.toUpperCase();
-        execution.setVariable("input", var);
-        System.out.println("");*/
-
         execution.setVariable("approbation", verificationPedagogique(execution));
     }
 
