@@ -48,7 +48,16 @@ public class MyDelegate3 implements JavaDelegate {
 
     public void createIFNOTEXISTFonciton(Statement stmt, String TableName ){
         //Create Table
-
+        String createTable = "CREATE TABLE IF NOT EXISTS ";
+        String columns = " ( "  + "NUMETU VARCHAR(255) PRIMARY KEY, " +
+                "NOM VARCHAR(255), PRENOM VARCHAR(255), " +
+                "FILIAIRE VARCHAR(255), "
+                + "DATEDEBUT DATE, DATEFIN DATE, POSTE VARCHAR(255), EMAILTUTOR VARCHAR(255)" + ");";
+        try {
+            stmt.execute(createTable + columns);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public String buildQuery(int nbColumn, String tableName){
