@@ -14,17 +14,25 @@ public class MyDelegate3 implements JavaDelegate {
 
         //ERASE TABLE
         Statement stmt = conn.createStatement();
-        String tableName = "CONVOCATION";
+        String dropString = "DROP TABLE IF EXISTS CONVOCATION";
+        System.out.println("** Dropped table ** ");
 
+        stmt.execute(dropString );
 
-        eraseIFEXISTFonciton(stmt,tableName);
-        System.out.println("** Dropped table ** " + tableName);
+        //Create Table
+        String requete = "CREATE TABLE IF NOT EXISTS " + "CONVOCATION" + " ("  + "NUMETU VARCHAR(255), " +
+                "NOM VARCHAR(255), PRENOM VARCHAR(255), " +
+                "FILIAIRE VARCHAR(255), "
+                + "DATEDEBUT DATE, DATEFIN DATE, POSTE VARCHAR(255), EMAILTUTOR VARCHAR(255), PRIMARY KEY(NUMETU)" + ");";
+            //execution
+        stmt.execute(requete);
 
-        createIFNOTEXISTFonciton(stmt,tableName);
         System.out.println("** Table create **");
 
+
+
         //add convocation in INSERT ROW.
-        PreparedStatement pst = conn.prepareStatement(buildQuery(8,tableName));
+        PreparedStatement pst = conn.prepareStatement("INSERT INTO \"CONVOCATION\" values (?,?,?,?,?,?,?,?)");
         pst.setString(1, (String) delegateExecution.getVariable("numIdEtu"));
         pst.setString(2, (String) delegateExecution.getVariable("nomEtu"));
         pst.setString(3, (String) delegateExecution.getVariable("prenom"));
@@ -33,50 +41,8 @@ public class MyDelegate3 implements JavaDelegate {
         pst.setDate(6, (Date) delegateExecution.getVariable("dateFin"));
         pst.setString(7, (String) delegateExecution.getVariable("poste"));
         pst.setString(8, (String) delegateExecution.getVariable("mailTutor"));
+
         System.out.println("** Row inserted **");
         conn.close();
     }
-
-    public void eraseIFEXISTFonciton(Statement stmt,String TableName ){
-        String dropString = "DROP TABLE IF EXISTS ";
-        try {
-            stmt.execute(dropString + TableName + ";");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void createIFNOTEXISTFonciton(Statement stmt, String TableName ){
-        //Create Table
-        String createTable = "CREATE TABLE IF NOT EXISTS ";
-        String columns = " ( "  + "NUMETU VARCHAR(255) PRIMARY KEY, " +
-                "NOM VARCHAR(255), PRENOM VARCHAR(255), " +
-                "FILIAIRE VARCHAR(255), "
-                + "DATEDEBUT DATE, DATEFIN DATE, POSTE VARCHAR(255), EMAILTUTOR VARCHAR(255)" + ");";
-        try {
-            stmt.execute(createTable + columns);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public String buildQuery(int nbColumn, String tableName){
-        StringBuilder sql = new StringBuilder("INSERT INTO \"" + tableName + "\" VALUES");
-        for (int i = 0 ; i< nbColumn; i++){
-            if(i == 0){
-                sql.append("(?,");
-            }
-            else if(i == (nbColumn - 1)){
-                sql.append("?)");
-            }
-            else{
-                sql.append("?,");
-
-            }
-        }
-        return sql.toString();
-    }
-
-
-        //PERMET D'AVOIR UNE TABLE. AVEC UNE SEUL LIGNE
 }
